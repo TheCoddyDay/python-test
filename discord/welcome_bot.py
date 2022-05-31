@@ -183,4 +183,24 @@ async def on_member_remove(member):
         f"{member.name} Has Left The server, We are going to miss you :( "
     )
 
+
+@bot.command(aliases=['load'])
+async def load_cog(ctx, extention):
+    bot.load_extension(f'cogs.{extention}')
+
+
+@bot.command(aliases=['unload'])
+async def unload_cog(ctx, extention):
+    bot.unload_extension(f'cogs.{extention}')
+
+
+@bot.command(aliases=['reload'])
+async def reload_cog(ctx, extention):
+    bot.unload_extension(f'cogs.{extention}')
+    bot.load_extension(f'cogs.{extention}')
+
+for filename in os.listdir('/cogs'):
+    if filename.endswith(".py"):
+        bot.load_extension(f"cogs.filename[:-3]")
+
 bot.run(Token)
