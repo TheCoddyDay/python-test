@@ -87,19 +87,33 @@ async def hi(ctx):
 
 @bot.command(aliases=['load'])
 async def load_cog(ctx, extention):
+    """
+    Extention Load Command
+    """
     bot.load_extension(f'cogs.{extention}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extention}"))
 
 
 @bot.command(aliases=['unload'])
 async def unload_cog(ctx, extention):
+    """
+    Extention Unload Command
+    """
     bot.unload_extension(f'cogs.{extention}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extention}"))
 
 
 @bot.command(aliases=['reload'])
 async def reload_cog(ctx, extention):
+    """
+    Extention Reaload Command
+    """
     bot.unload_extension(f'cogs.{extention}')
     bot.load_extension(f'cogs.{extention}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extention}"))
 
+
+# Extention loader
 for filename in os.listdir('/cogs'):
     if filename.endswith(".py"):
         bot.load_extension(f"cogs.filename[:-3]")
