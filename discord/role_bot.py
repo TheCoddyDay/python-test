@@ -1,3 +1,7 @@
+"""
+Not tested
+"""
+
 import os
 import discord
 from libs import macro
@@ -10,7 +14,8 @@ load_dotenv()
 
 Token = os.getenv('Disocrd_Token')
 Prefix = os.getenv('Disocrd_Prefix')
-Dis_Url = "Your discord channels url"
+# your channel id
+channel_ID = 1021231231231
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
@@ -99,6 +104,22 @@ async def addrole(
         return await ctx.send(
             embed=await macro.error(
                 'Please mention the member and role to give them.'))
+
+
+@bot.event
+async def on_message(message):
+    Channel = client.get_channel(channel_ID)
+    Moji = await Channel.send(await macro.send(desc=f'{message}', title=f'react role by {message.author.name}'))
+    await Moji.add_reaction('🏃')
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    Channel = client.get_channel(channel_ID)
+    if reaction.message.channel.id != Channel.id:
+        return
+    if reaction.emoji == "🏃":
+      Role = discord.utils.get(user.server.roles, name="yor-role-name-here")
+      await user.add_roles(Role)
 
 
 @bot.command(aliases=['load'])
