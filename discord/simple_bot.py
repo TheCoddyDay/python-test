@@ -17,10 +17,10 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
                    help_command=PrettyHelp())
 
-help_menu = DefaultMenu(active_time=5, remove="⛔")
+help_menu = DefaultMenu(active_time=15, remove="⛔")
 bot.help_command = PrettyHelp(menu=help_menu)
 
-
+ 
 @bot.command(pass_context=True)
 async def ping(ctx):
     """ Pong! """
@@ -86,7 +86,7 @@ async def hi(ctx):
     """
     await ctx.send("yo! " + ctx.author.display_name)
 
-@bot.slash_command(guild_ids=[], description="Test 1")
+@bot.slash_command(guild_ids=[947089950984261662], description="Test 1")
 async def slash_test(ctx):
     await ctx.respond("Just a simple hi")
 
@@ -119,8 +119,9 @@ async def reload_cog(ctx, extension):
 
 
 # Extension loader
-for filename in os.listdir('./cogs/'):
+for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
-        bot.load_extension(f"cogs.filename[:-3]")
+        bot.load_extension(f"cogs.{filename[:-3]}")
+        print(f"cog loaded {filename}")
 
 bot.run(Token)

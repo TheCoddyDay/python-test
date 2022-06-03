@@ -380,8 +380,10 @@ async def addrole(
                 'Please mention the member and role to give them.'))
 
 
-for filename in os.listdir('/cogs'):
+for filename in os.listdir("./cogs"):
     if filename.endswith(".py"):
-        bot.load_extension(f"cogs.filename[:-3]")
+        bot.load_extension(f"cogs.{filename[:-3]}")
+        print(f"cog loaded {filename}")
+
 
 bot.run(Token)
