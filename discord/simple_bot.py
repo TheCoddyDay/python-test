@@ -4,13 +4,15 @@ from libs import macro
 from pretty_help import PrettyHelp
 from pretty_help import DefaultMenu
 from discord.ext import commands
+from discord.commands import Option
 from dotenv import load_dotenv
 
+# loading all the needed stuff
 load_dotenv()
 
 intents = discord.Intents.all()
-Prefix = os.getenv('Disocrd_Prefix')
-Token = os.getenv('Disocrd_Token')
+Prefix = os.getenv('Discord_Prefix')
+Token = os.getenv('Discord_Token')
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
                    help_command=PrettyHelp())
@@ -72,7 +74,7 @@ async def on_command_error(ctx, error):
     else:
         await ctx.send(embed=await macro.error(f'Woah there partner. :cowboy: \
             It seems as though you ran into a serious error. \
-            \nPlease contact @TheCoddyDay#5100 and DM him the text below, \
+            # \nPlease contact @TheCoddyDay#5100 and DM him the text below, \
             along with the command you used, and \
             how you typed it out.\n```{str(error)}```'))
 
@@ -84,37 +86,40 @@ async def hi(ctx):
     """
     await ctx.send("yo! " + ctx.author.display_name)
 
+@bot.slash_command(guild_ids=[], description="Test 1")
+async def slash_test(ctx):
+    await ctx.respond("Just a simple hi")
 
 @bot.command(aliases=['load'])
-async def load_cog(ctx, extention):
+async def load_cog(ctx, extension):
     """
-    Extention Load Command
+    Extension Load Command
     """
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"loaded {extention}"))
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extension}"))
 
 
 @bot.command(aliases=['unload'])
-async def unload_cog(ctx, extention):
+async def unload_cog(ctx, extension):
     """
-    Extention Unload Command
+    Extension Unload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"unloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extension}"))
 
 
 @bot.command(aliases=['reload'])
-async def reload_cog(ctx, extention):
+async def reload_cog(ctx, extension):
     """
-    Extention Reaload Command
+    Extension Reload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"reloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extension}"))
 
 
-# Extention loader
-for filename in os.listdir('/cogs'):
+# Extension loader
+for filename in os.listdir('./cogs/'):
     if filename.endswith(".py"):
         bot.load_extension(f"cogs.filename[:-3]")
 

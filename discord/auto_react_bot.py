@@ -10,8 +10,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 intents = discord.Intents.all()
-Prefix = os.getenv('Disocrd_Prefix')
-Token = os.getenv('Disocrd_Token')
+Prefix = os.getenv('Discord_Prefix')
+Token = os.getenv('Discord_Token')
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
                    help_command=PrettyHelp())
@@ -267,22 +267,31 @@ async def on_message(message):
 
 
 @bot.command(aliases=['load'])
-async def load_cog(ctx, extention):
-    bot.load_extension(f'cogs.{extention}')
+async def load_cog(ctx, extension):
+    """
+    Extension Load Command
+    """
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extension}"))
 
 
 @bot.command(aliases=['unload'])
-async def unload_cog(ctx, extention):
-    bot.unload_extension(f'cogs.{extention}')
+async def unload_cog(ctx, extension):
+    """
+    Extension Unload Command
+    """
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extension}"))
 
 
 @bot.command(aliases=['reload'])
-async def reload_cog(ctx, extention):
-    bot.unload_extension(f'cogs.{extention}')
-    bot.load_extension(f'cogs.{extention}')
+async def reload_cog(ctx, extension):
+    """
+    Extension Reaload Command
+    """
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extension}"))
 
-for filename in os.listdir('/cogs'):
-    if filename.endswith(".py"):
-        bot.load_extension(f"cogs.filename[:-3]")
 
 bot.run(Token)

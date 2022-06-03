@@ -1,7 +1,3 @@
-"""
-Not tested
-"""
-
 import os
 import discord
 from libs import macro
@@ -12,8 +8,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-Token = os.getenv('Disocrd_Token')
-Prefix = os.getenv('Disocrd_Prefix')
+Token = os.getenv('Discord_Token')
+Prefix = os.getenv('Discord_Prefix')
 # your channel id
 channel_ID = 1021231231231
 intents = discord.Intents.default()
@@ -108,13 +104,13 @@ async def addrole(
 
 @bot.event
 async def on_message(message):
-    Channel = client.get_channel(channel_ID)
+    Channel = bot.get_channel(channel_ID)
     Moji = await Channel.send(await macro.send(desc=f'{message}', title=f'react role by {message.author.name}'))
     await Moji.add_reaction('🏃')
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    Channel = client.get_channel(channel_ID)
+    Channel = bot.get_channel(channel_ID)
     if reaction.message.channel.id != Channel.id:
         return
     if reaction.emoji == "🏃":
@@ -123,30 +119,30 @@ async def on_reaction_add(reaction, user):
 
 
 @bot.command(aliases=['load'])
-async def load_cog(ctx, extention):
+async def load_cog(ctx, extension):
     """
-    Extention Load Command
+    Extension Load Command
     """
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"loaded {extention}"))
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extension}"))
 
 
 @bot.command(aliases=['unload'])
-async def unload_cog(ctx, extention):
+async def unload_cog(ctx, extension):
     """
-    Extention Unload Command
+    Extension Unload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"unloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extension}"))
 
 
 @bot.command(aliases=['reload'])
-async def reload_cog(ctx, extention):
+async def reload_cog(ctx, extension):
     """
-    Extention Reaload Command
+    Extension Reload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"reloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extension}"))
 
 bot.run(Token)

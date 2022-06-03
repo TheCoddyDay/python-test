@@ -1,7 +1,3 @@
-"""
-Not tested
-"""
-
 import os
 import discord
 import random
@@ -9,14 +5,17 @@ import asyncio
 from libs import macro
 from pretty_help import PrettyHelp
 from pretty_help import DefaultMenu
+from discord.commands import Option
+from discord.commands import SlashCommandGroup
 from discord.ext import commands
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
 intents = discord.Intents.all()
-Prefix = os.getenv('Disocrd_Prefix')
-Token = os.getenv('Disocrd_Token')
+Prefix = os.getenv('Discord_Prefix')
+Token = os.getenv('Discord_Token')
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
                    help_command=PrettyHelp())
@@ -90,77 +89,32 @@ async def on_command_error(ctx, error):
             how you typed it out.\n```{str(error)}```'))
 
 
-@bot.command(aliases=['truth'])
-async def Truth(ctx):
-    """
-    Just Truth command
-    """
-	with open('./utils/TruthOrDare/truths/simple.txt') as truths:
-        ok = cleanList(random.choice(truths))
-
-    await ctx.send(await macro.send(desc=f"{ok}", title=f"asked by {ctx.author.display_name}"))
-
-
-@bot.command(aliases=['dare'])
-async def Dare(ctx):
-    """
-    Just Dare command
-    """
-    with open('./utils/TruthOrDare/dares/simple.txt') as truths:
-        ok = cleanList(random.choice(truths))
-
-    await ctx.send(await macro.send(desc=f"{ok}", title=f"asked by {ctx.author.display_name}"))
-
-
-@bot.command()
-async def truth_append(ctx):
-    """
-    Just Truth command
-    """
-    with open('./utils/TruthOrDare/truths/simple.txt', 'w') as truths:
-        ok = cleanList(random.choice(truths))
-
-    await ctx.send(await macro.send(desc=f"{ok}", title=f"asked by {ctx.author.display_name}"))
-
-
-@bot.command()
-async def dare_append(ctx):
-    """
-    Just Dare command to append
-    """
-    with open('./utils/TruthOrDare/dares/simple.txt', 'w') as truths:
-        ok = cleanList(random.choice(truths))
-
-    await ctx.send(await macro.send(desc=f"{ok}", title=f"asked by {ctx.author.display_name}"))
-
-
-
 
 @bot.command(aliases=['load'])
-async def load_cog(ctx, extention):
+async def load_cog(ctx, extension):
     """
-    Extention Load Command
+    Extension Load Command
     """
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"loaded {extention}"))
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extension}"))
 
 
 @bot.command(aliases=['unload'])
-async def unload_cog(ctx, extention):
+async def unload_cog(ctx, extension):
     """
-    Extention Unload Command
+    Extension Unload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"unloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extension}"))
 
 
 @bot.command(aliases=['reload'])
-async def reload_cog(ctx, extention):
+async def reload_cog(ctx, extension):
     """
-    Extention Reaload Command
+    Extension Reload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"reloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extension}"))
 
 bot.run(Token)

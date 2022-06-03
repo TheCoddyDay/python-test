@@ -9,8 +9,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 intents = discord.Intents.all()
-Prefix = os.getenv('Disocrd_Prefix')
-Token = os.getenv('Disocrd_Token')
+Prefix = os.getenv('Discord_Prefix')
+Token = os.getenv('Discord_Token')
 muteRole = "your-mute-roll-name"
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(Prefix),
                    intents=intents,
@@ -79,31 +79,31 @@ async def on_command_error(ctx, error):
 
 
 @bot.command(aliases=['load'])
-async def load_cog(ctx, extention):
+async def load_cog(ctx, extension):
     """
-    Extention Load Command
+    Extension Load Command
     """
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"loaded {extention}"))
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"loaded {extension}"))
 
 
 @bot.command(aliases=['unload'])
-async def unload_cog(ctx, extention):
+async def unload_cog(ctx, extension):
     """
-    Extention Unload Command
+    Extension Unload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"unloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"unloaded {extension}"))
 
 
 @bot.command(aliases=['reload'])
-async def reload_cog(ctx, extention):
+async def reload_cog(ctx, extension):
     """
-    Extention Reaload Command
+    Extension Reload Command
     """
-    bot.unload_extension(f'cogs.{extention}')
-    bot.load_extension(f'cogs.{extention}')
-    await ctx.send(embed=await macro.send(desc=f"reloaded {extention}"))
+    bot.unload_extension(f'cogs.{extension}')
+    bot.load_extension(f'cogs.{extension}')
+    await ctx.send(embed=await macro.send(desc=f"reloaded {extension}"))
 
 
 @bot.command()
@@ -113,7 +113,7 @@ async def ban(ctx, member: discord.Member, *,
     Ban someone from the server
     """
     if not member:
-        return await ctx.send(embed=await macro.error('Provid a member pls?'))
+        return await ctx.send(embed=await macro.error('Provide a member pls?'))
 
     if not reason:
         return await ctx.send(
@@ -169,7 +169,7 @@ async def kick(ctx, member: discord.Member, *,
     Kick someone from the server
     """
     if not member:
-        return await ctx.send(embed=await macro.error('Provid member pls?'))
+        return await ctx.send(embed=await macro.error('Provide member pls?'))
 
     if not reason:
         return await ctx.send(
